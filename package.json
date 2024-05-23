@@ -1,0 +1,18 @@
+{
+    "name": "gqlgen",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "build": "tsc --watch",
+        "start": "tsc && node dist/index.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "graphql": "^16.8.1",
+        "quicktype": "^23.0.162",
+        "quicktype-graphql-input": "^23.0.162"
+    }
+}

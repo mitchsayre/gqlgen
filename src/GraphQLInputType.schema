@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GraphQLInputType",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "document": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "headers": {
+      "type": "object",
+      "Properties": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "name",
+    "document",
+    "url",
+    "headers"
+  ],
+  "additionalProperties": false
+}
