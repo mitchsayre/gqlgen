@@ -1,0 +1,49 @@
+Name,Language,Type-safe included,Type-safe w/ graphql-code-generator,URL
+apollo-client,TypeScript,FALSE,TRUE,https://github.com/apollographql/apollo-client
+apollo-ios,Swift,TRUE,,https://github.com/apollographql/apollo-ios
+apollo-kotlin,Kotlin,TRUE,,https://github.com/apollographql/apollo-kotlin
+ariadne-codegen,Python,TRUE,,https://github.com/mirumee/ariadne-codegen
+amplify-js,TypeScript,TRUE,,https://github.com/aws-amplify/amplify-js
+caliban,Scala,"Yes, but queries are built in Scala using generated types from Schema",,https://github.com/ghostdogpr/caliban
+common_graphql_client,Elixir,Kind of but not fully,,https://github.com/annkissam/common_graphql_client
+cynic,Rust,"Yes, but queries are built in Rust using generated types from Schema",,https://github.com/obmarg/cynic
+Diana.jl,Julia,FALSE,,https://github.com/neomatrixcode/Diana.jl
+elm-graphql,Elm,"Yes, but queries are built in Elm using generated types from Schema",,https://github.com/dillonkearns/elm-graphql
+ferry,Dart,TRUE,,https://github.com/gql-dart/ferry
+genqlient,Go,TRUE,,https://github.com/Khan/genqlient
+go-graphql-client,Go,"Yes, but queries are built in Go using generated types from Schema",,https://github.com/hasura/go-graphql-client
+gql,Python,FALSE,,https://github.com/graphql-python/gql
+gql-client-rs,Rust,FALSE,,https://github.com/arthurkhlghatyan/gql-client-rs
+grafoo,TypeScript,FALSE,,https://github.com/grafoojs/grafoo
+Graphaello,Swift,"Yes, but queries are built in Swift using generated types from Schema",,https://github.com/nerdsupremacist/Graphaello
+graphql-flutter,Flutter,FALSE,"Yes, with: https://pub.dev/packages/graphql_codegen",https://github.com/zino-app/graphql-flutter
+graphql,Go,FALSE,,https://github.com/shurcooL/graphql
+graphql-ios,Objective-C,FALSE,,https://github.com/funcompany/graphql-ios
+graphql-request,TypeScript,FALSE,,https://github.com/jasonkuhrt/graphql-request
+graphql-hooks,TypeScript,FALSE,TRUE,https://github.com/nearform/graphql-hooks
+graphql-http,TypeScript,FALSE,,https://github.com/graphql/graphql-http
+graphql-kotlin,Kotlin,TRUE,,https://github.com/ExpediaGroup/graphql-kotlin
+graphql-net-client,.NET,FALSE,,https://github.com/bkniffler/graphql-net-client
+graphql-query,Python,"Yes, but queries are built in Python using generated types from Schema",,https://github.com/denisart/graphql-query
+graphql-sse,TypeScript,FALSE,TRUE,https://github.com/enisdenjo/graphql-sse
+graphql-ts-client,TypeScript,"Yes, but queries are built in TypeScript using generated types from Schema",,https://github.com/babyfish-ct/graphql-ts-client
+graphql-ws,TypeScript,FALSE,TRUE,https://github.com/enisdenjo/graphql-ws
+graphql-client,.NET,FALSE?,,https://github.com/graphql-dotnet/graphql-client
+graphql-box,TypeScript,FALSE,,https://github.com/badbatch/graphql-box
+GraphQLClient.jl,Julia,"No, it has some stuff but depends on introspection endpoint at runtime",,https://github.com/DeloitteDigitalAPAC/GraphQLClient.jl
+graphqurl,,N/A,,https://github.com/hasura/graphqurl
+lokka,JavaScript,FALSE,,https://github.com/kadirahq/lokka
+graphql,Go,FALSE,,https://github.com/machinebox/graphql
+morpheus-graphql,Haskell,TRUE,,https://github.com/morpheusgraphql/morpheus-graphql
+nanographql,JavaScript,FALSE,,https://github.com/choojs/nanographql
+neuron,Elixir,FALSE,,https://github.com/uesteibar/neuron
+nodes,,ARCHIVED,,https://github.com/americanexpress/nodes
+python-graphql-client,Python,FALSE,,https://github.com/prisma-labs/python-graphql-client
+python-qlient,Python,FALSE,,https://github.com/qlient-org/python-qlient
+re-graph,Clojure,FALSE,,https://github.com/oliyh/re-graph
+SAHB.GraphQLClient,.NET,Not really,,https://github.com/sahb1239/SAHB.GraphQLClient
+sgqlc,Python,FALSE,This issue: https://github.com/profusion/sgqlc/issues/129,https://github.com/profusion/sgqlc
+hotchocolate,.NET,TRUE,,https://github.com/ChilliCream/hotchocolate
+swift-graphql,Swift,"Yes, but queries are built in Swift using generated types from Schema",,https://github.com/maticzav/swift-graphql
+urql,TypeScript,FALSE,TRUE,https://github.com/FormidableLabs/urql
+ZeroQL,C#,FALSE?,,https://github.com/byme8/ZeroQL
