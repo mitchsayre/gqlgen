@@ -1,6 +1,0 @@
-schema: './codegen/schema.gql'
-documents: './operations/*.graphql'
-generates:
-  output.ts:
-    plugins:
-      - './gqlgen/watch.ts'

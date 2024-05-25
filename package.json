@@ -3,10 +3,11 @@
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
-    "type": "module",
     "scripts": {
         "build": "tsc --watch",
-        "start": "tsc && node dist/index.js"
+        "start": "tsc && node dist/index.js",
+        "codegen": "npx graphql-code-generator --config ./example/codegen.ts",
+        "codegen:watch": "npx graphql-code-generator --config ./example/codegen.ts --watch"
     },
     "author": "",
     "license": "ISC",
