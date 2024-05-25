@@ -14,5 +14,10 @@
         "graphql": "^16.8.1",
         "quicktype": "^23.0.162",
         "quicktype-graphql-input": "^23.0.162"
+    },
+    "devDependencies": {
+        "@graphql-codegen/cli": "^5.0.2",
+        "@parcel/watcher": "^2.4.1",
+        "typescript": "^5.4.5"
     }
 }

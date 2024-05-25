@@ -1,0 +1,312 @@
+type AIHubVoiceModel {
+  backupUrls(after: String, before: String, first: Int, last: Int): AIHubVoiceModelBackupUrlsConnection!
+  checksumMD5ForWeights: String!
+  creatorText: String
+  derivedModel: VoiceModel
+  derivedModelId: ID
+  downloadCount: Int!
+  filename: String!
+  id: ID!
+  inferredProfile: VoiceModelProfile
+  name: String
+  version: String!
+}
+
+type AIHubVoiceModelBackupUrlsConnection {
+  edges: [AIHubVoiceModelBackupUrlsEdge]!
+  pageInfo: PageInfo!
+}
+
+type AIHubVoiceModelBackupUrlsEdge {
+  cursor: String!
+  node: VoiceModelBackupUrl!
+}
+
+type AIHubVoiceModelsConnection {
+  edges: [AIHubVoiceModelsEdge]!
+  pageInfo: PageInfo!
+}
+
+type AIHubVoiceModelsEdge {
+  cursor: String!
+  node: AIHubVoiceModel!
+}
+
+input CreateAIHubVoiceModelInput {
+  checksumMD5ForWeights: String!
+  creatorText: String
+  derivedModelId: ID
+  downloadCount: Int!
+  filename: String!
+  name: String
+  version: String!
+}
+
+input CreateTextToSpeechInput {
+  inputText: String!
+  ouputUrl: String!
+  voiceModelId: ID!
+}
+
+input CreateVoiceModelBackupUrlInput {
+  url: String!
+  voiceModelId: ID!
+}
+
+input CreateVoiceModelConfigInput {
+  artifactProtection: Float!
+  audioResampling: Int!
+  f0Curve: String!
+  filterRadius: Int!
+  pitchExtractionMethod: String!
+  qualityScore: Float!
+  searchFeatureRatio: Float!
+  transposePitch: Int!
+  voiceModelId: ID!
+  volumeEnvelopeScaling: Float!
+}
+
+input CreateVoiceModelInput {
+  checksumMD5ForAdded: String!
+  checksumMD5ForWeights: String!
+  checksumSHA256ForAdded: String!
+  checksumSHA256ForWeights: String!
+  filesizeForAdded: Int!
+  filesizeForWeights: Int!
+  hidden: Boolean!
+  name: String!
+  processed: Boolean!
+}
+
+input CreateVoiceModelProfileInput {
+  accent: String!
+  confidence: Float!
+  fictional: Boolean!
+  gender: String!
+  modelTrainedOnEnglishProbability: Float!
+  name: String!
+  nativeLanguage: String!
+  relevantTags: [String!]!
+  voiceModelId: ID!
+}
+
+type Mutation {
+  createAIHubVoiceModel(input: CreateAIHubVoiceModelInput!): AIHubVoiceModel!
+  createTextToSpeech(input: CreateTextToSpeechInput!): TextToSpeech!
+  createVoiceModel(input: CreateVoiceModelInput!): VoiceModel!
+  createVoiceModelBackupUrl(input: CreateVoiceModelBackupUrlInput!): VoiceModelBackupUrl!
+  createVoiceModelConfig(input: CreateVoiceModelConfigInput!): VoiceModelConfig!
+  createVoiceModelProfile(input: CreateVoiceModelProfileInput!): VoiceModelProfile!
+  updateAIHubVoiceModel(input: UpdateAIHubVoiceModelInput!): AIHubVoiceModel!
+  updateTextToSpeech(input: UpdateTextToSpeechInput!): TextToSpeech!
+  updateVoiceModel(input: UpdateVoiceModelInput!): VoiceModel!
+  updateVoiceModelBackupUrl(input: UpdateVoiceModelBackupUrlInput!): VoiceModelBackupUrl!
+  updateVoiceModelConfig(input: UpdateVoiceModelConfigInput!): VoiceModelConfig!
+  updateVoiceModelProfile(input: UpdateVoiceModelProfileInput!): VoiceModelProfile!
+}
+
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+}
+
+type Query {
+  AIHubVoiceModel(checksumMD5ForWeights: String, id: ID): AIHubVoiceModel!
+  AIHubVoiceModels(after: String, before: String, first: Int, last: Int, minDownloadCount: Int): AIHubVoiceModelsConnection!
+  TextToSpeech(id: ID!): TextToSpeech!
+  TextToSpeeches(after: String, before: String, first: Int, last: Int): TextToSpeechesConnection!
+  VoiceModel(id: ID!): VoiceModel!
+  VoiceModelBackupUrl(id: ID!): VoiceModelBackupUrl!
+  VoiceModelBackupUrls(after: String, before: String, first: Int, last: Int): VoiceModelBackupUrlsConnection!
+  VoiceModelConfig(id: ID!): VoiceModelConfig!
+  VoiceModelConfigs(after: String, before: String, first: Int, last: Int): VoiceModelConfigsConnection!
+  VoiceModelProfile(id: ID!): VoiceModelProfile!
+  VoiceModelProfiles(after: String, before: String, first: Int, last: Int): VoiceModelProfilesConnection!
+  VoiceModels(after: String, before: String, first: Int, last: Int): VoiceModelsConnection!
+}
+
+type TextToSpeech {
+  id: ID!
+  inputText: String!
+  ouputUrl: String!
+  voiceModel: VoiceModel!
+  voiceModelId: ID!
+}
+
+type TextToSpeechesConnection {
+  edges: [TextToSpeechesEdge]!
+  pageInfo: PageInfo!
+}
+
+type TextToSpeechesEdge {
+  cursor: String!
+  node: TextToSpeech!
+}
+
+input UpdateAIHubVoiceModelInput {
+  checksumMD5ForWeights: String
+  creatorText: String
+  derivedModelId: ID
+  downloadCount: Int
+  filename: String
+  id: ID!
+  name: String
+  version: String
+}
+
+input UpdateTextToSpeechInput {
+  id: ID!
+  inputText: String
+  ouputUrl: String
+  voiceModelId: ID
+}
+
+input UpdateVoiceModelBackupUrlInput {
+  id: ID!
+  url: String
+  voiceModelId: ID
+}
+
+input UpdateVoiceModelConfigInput {
+  artifactProtection: Float
+  audioResampling: Int
+  f0Curve: String
+  filterRadius: Int
+  id: ID!
+  pitchExtractionMethod: String
+  qualityScore: Float
+  searchFeatureRatio: Float
+  transposePitch: Int
+  voiceModelId: ID
+  volumeEnvelopeScaling: Float
+}
+
+input UpdateVoiceModelInput {
+  checksumMD5ForAdded: String
+  checksumMD5ForWeights: String
+  checksumSHA256ForAdded: String
+  checksumSHA256ForWeights: String
+  filesizeForAdded: Int
+  filesizeForWeights: Int
+  hidden: Boolean
+  id: ID!
+  name: String
+  processed: Boolean
+}
+
+input UpdateVoiceModelProfileInput {
+  accent: String
+  confidence: Float
+  fictional: Boolean
+  gender: String
+  id: ID!
+  modelTrainedOnEnglishProbability: Float
+  name: String
+  nativeLanguage: String
+  relevantTags: [String!]
+  voiceModelId: ID
+}
+
+type VoiceModel {
+  checksumMD5ForAdded: String!
+  checksumMD5ForWeights: String!
+  checksumSHA256ForAdded: String!
+  checksumSHA256ForWeights: String!
+  filesizeForAdded: Int!
+  filesizeForWeights: Int!
+  hidden: Boolean!
+  id: ID!
+  modelConfig: VoiceModelConfig
+  name: String!
+  processed: Boolean!
+  sourceModel: AIHubVoiceModel
+  textToSpeeches(after: String, before: String, first: Int, last: Int): VoiceModelTextToSpeechesConnection!
+}
+
+type VoiceModelBackupUrl {
+  id: ID!
+  url: String!
+  voiceModel: AIHubVoiceModel!
+  voiceModelId: ID!
+}
+
+type VoiceModelBackupUrlsConnection {
+  edges: [VoiceModelBackupUrlsEdge]!
+  pageInfo: PageInfo!
+}
+
+type VoiceModelBackupUrlsEdge {
+  cursor: String!
+  node: VoiceModelBackupUrl!
+}
+
+type VoiceModelConfig {
+  artifactProtection: Float!
+  audioResampling: Int!
+  f0Curve: String!
+  filterRadius: Int!
+  id: ID!
+  pitchExtractionMethod: String!
+  qualityScore: Float!
+  searchFeatureRatio: Float!
+  transposePitch: Int!
+  voiceModel: VoiceModel!
+  voiceModelId: ID!
+  volumeEnvelopeScaling: Float!
+}
+
+type VoiceModelConfigsConnection {
+  edges: [VoiceModelConfigsEdge]!
+  pageInfo: PageInfo!
+}
+
+type VoiceModelConfigsEdge {
+  cursor: String!
+  node: VoiceModelConfig!
+}
+
+type VoiceModelProfile {
+  accent: String!
+  confidence: Float!
+  fictional: Boolean!
+  gender: String!
+  id: ID!
+  modelTrainedOnEnglishProbability: Float!
+  name: String!
+  nativeLanguage: String!
+  relevantTags: [String!]!
+  voiceModel: AIHubVoiceModel!
+  voiceModelId: ID!
+}
+
+type VoiceModelProfilesConnection {
+  edges: [VoiceModelProfilesEdge]!
+  pageInfo: PageInfo!
+}
+
+type VoiceModelProfilesEdge {
+  cursor: String!
+  node: VoiceModelProfile!
+}
+
+type VoiceModelTextToSpeechesConnection {
+  edges: [VoiceModelTextToSpeechesEdge]!
+  pageInfo: PageInfo!
+}
+
+type VoiceModelTextToSpeechesEdge {
+  cursor: String!
+  node: TextToSpeech!
+}
+
+type VoiceModelsConnection {
+  edges: [VoiceModelsEdge]!
+  pageInfo: PageInfo!
+}
+
+type VoiceModelsEdge {
+  cursor: String!
+  node: VoiceModel!
+}

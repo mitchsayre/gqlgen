@@ -1,0 +1,190 @@
+# query {
+#     viewer {
+#         login
+#         name
+#     }
+# }
+
+# mutation CreateAIHubVoiceModel($input: CreateAIHubVoiceModelInput!) {
+#   createAIHubVoiceModel(input: $input) {
+#     id
+#     name
+#     version
+#     filename
+#     downloadCount
+#     derivedModelId
+#     creatorText
+#   }
+# }
+
+# mutation CreateVoiceModelBackupUrl($input: CreateVoiceModelBackupUrlInput!) {
+#   createVoiceModelBackupUrl(input: $input) {
+#     id
+#     url
+#     voiceModelId
+#   }
+# }
+
+# mutation CreateVoiceModelProfile($input: CreateVoiceModelProfileInput!) {
+#   createVoiceModelProfile(input: $input) {
+#     id
+#     name
+#     voiceModelId
+#   }
+# }
+
+# mutation CreateVoiceModel($input: CreateVoiceModelInput!) {
+#   createVoiceModel(input: $input) {
+#     checksumMD5ForAdded
+#     checksumMD5ForWeights
+#     checksumSHA256ForAdded
+#     checksumSHA256ForWeights
+#     filesizeForWeights
+#     filesizeForAdded
+#     hidden
+#     id
+#     name
+#     processed
+#   }
+# }
+
+# mutation UpdateAIHubVoiceModel($input: UpdateAIHubVoiceModelInput!) {
+#   updateAIHubVoiceModel(input: $input) {
+#     checksumMD5ForWeights
+#     creatorText
+#     derivedModelId
+#     downloadCount
+#     filename
+#     id
+#     name
+#     version
+#   }
+# }
+
+# mutation CreateVoiceModelConfig($input: CreateVoiceModelConfigInput!) {
+#   createVoiceModelConfig(input: $input) {
+#     artifactProtection
+#     audioResampling
+#     f0Curve
+#     filterRadius
+#     id
+#     pitchExtractionMethod
+#     qualityScore
+#     searchFeatureRatio
+#     transposePitch
+#     voiceModelId
+#     volumeEnvelopeScaling
+#   }
+# }
+
+# mutation UpdateVoiceModel($input: UpdateVoiceModelInput!) {
+#   updateVoiceModel(input: $input) {
+#     hidden
+#     id
+#     name
+#   }
+# }
+
+query test($after: String) {
+  AIHubVoiceModels(first: 100, minDownloadCount: 75, after: $after) {
+    edges {
+      node {
+        downloadCount
+        filename
+        name
+        checksumMD5ForWeights
+        inferredProfile {
+          accent
+          confidence
+          fictional
+          gender
+          id
+          modelTrainedOnEnglishProbability
+          name
+          nativeLanguage
+          relevantTags
+          voiceModelId
+        }
+        backupUrls(first: 20) {
+          edges {
+            node {
+              id
+              url
+              voiceModelId
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+# query VoiceModels($after: String) {
+#   VoiceModels(first: 50, after: $after) {
+#     edges {
+#       cursor
+#       node {
+#         checksumMD5ForAdded
+#         checksumMD5ForWeights
+#         checksumSHA256ForAdded
+#         checksumSHA256ForWeights
+#         filesizeForAdded
+#         filesizeForWeights
+#         hidden
+#         id
+#         name
+#         processed
+#       }
+#     }
+#     pageInfo {
+#       endCursor
+#       hasNextPage
+#       hasPreviousPage
+#       startCursor
+#     }
+#   }
+# }
+
+# query VoiceModelConfigs($after: String) {
+#   VoiceModelConfigs(first: 50, after: $after) {
+#     edges {
+#       cursor
+#       node {
+#         id
+#         qualityScore
+#         voiceModelId
+#       }
+#     }
+#     pageInfo {
+#       endCursor
+#       hasNextPage
+#       hasPreviousPage
+#       startCursor
+#     }
+#   }
+# }
+
+# query AIHubVoiceModelUsingChecksumMD5ForWeights($checksumMD5ForWeights: String) {
+#   AIHubVoiceModel(checksumMD5ForWeights: $checksumMD5ForWeights) {
+#     creatorText
+#     # downloadCount
+#     # id
+#     # filename
+#     # name
+#     # version
+#     # derivedModelId
+#     # checksumMD5ForWeights
+#     # inferredProfile {
+#     #   accent
+#     #   confidence
+#     #   fictional
+#     #   gender
+#     #   id
+#     #   modelTrainedOnEnglishProbability
+#     #   name
+#     #   nativeLanguage
+#     #   relevantTags
+#     #   voiceModelId
+#     # }
+#   }
+# }
