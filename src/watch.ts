@@ -1,6 +1,12 @@
-const chokidar = require('chokidar');
+import chokidar from 'chokidar';
 
-function setUpWatcher(directory, runCodegen, documents) {
+interface Documents{
+    location: string;
+    [key:string]: any;
+}
+
+type RunCodegen = (path: string, action: 'added' | 'changed' |'removed') => void;
+function setUpWatcher(directory:string, runCodegen:RunCodegen, documents:Documents) {
     let initialScanComplete = false;
     console.log(documents)
 
@@ -23,13 +29,12 @@ function setUpWatcher(directory, runCodegen, documents) {
         });
 }
 
-function runCodegen(path, action) {
+function runCodegen(path: string, action: 'added' | 'changed' | 'removed') {
     console.log(`${path} has been ${action}`);
 }
 
-module.exports = {
-    plugin: (schema, documents, config) => {
-        setUpWatcher(documents.location, runCodegen, documents);
-        return {};
-    }
+
+export const plugin = (schema: any, documents: Documents, config: any) => {
+    setUpWatcher(documents.location, runCodegen, documents);
+    return {};
 };
