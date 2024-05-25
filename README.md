@@ -1,44 +1,21 @@
 # gqlgen
 
-## Object oriented
+## Contributing
 
-```typescript
-@Injectable({
-  providedIn: "root",
-})
-export class FindUserGQL extends Apollo.Query<FindUserQuery, FindUserQueryVariables> {
-  document = FindUserDocument;
+To build the code run
 
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
-  }
-}
+```bash
+npm run build
+
+# Or in watch mode
+npm run build:watch
 ```
 
-## declarative
+To test the `graphql-code-generator` custom plugin run
 
-```typescript
-import { graphql } from "../src/gql";
+```bash
+npm run codegen
 
-const allFilmsWithVariablesQueryDocument = graphql(`
-  query allFilmsWithVariablesQuery($first: Int!) {
-    allFilms(first: $first) {
-      edges {
-        node {
-          ...FilmItem
-        }
-      }
-    }
-  }
-`);
-
-const { data } = useQuery(allFilmsWithVariablesQueryDocument, { variables: { first: 10 } });
-```
-
-## imperative
-
-```typescript
-import { findUserGQL } from "../src/generated";
-
-findUserGQL(variables, uri, headers);
+# Or in watch mode
+npm run codegen:watch
 ```
