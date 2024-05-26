@@ -22,12 +22,8 @@ import {
 } from "quicktype-core";
 
 export class PythonTargetLanguageGQL extends PythonTargetLanguage {
-  private operationName: string;
-  private operation: string;
-  constructor(operationName: string, operation: string) {
+  constructor() {
     super("Python", ["python", "py"], "py");
-    this.operationName = operationName;
-    this.operation = operation;
   }
 
   protected makeRenderer(renderContext: RenderContext, untypedOptionValues: { [name: string]: any }): PythonRenderer {

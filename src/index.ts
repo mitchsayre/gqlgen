@@ -21,9 +21,11 @@ import {
   JSONSchemaAttributes,
   ClassProperty,
   Name,
+  languageNamed,
 } from "quicktype-core";
 import { GraphQLInput, GraphQLSourceData } from "quicktype-graphql-input";
 import { PythonTargetLanguageGQL } from "./language/Python.js";
+import { targetLanguages } from "./language/index.js";
 // import { makeQuicktypeOptions, CLIOptions } from "quicktype";
 
 // type GraphQLInputType = {
@@ -53,12 +55,11 @@ async function main(): Promise<void> {
   const inputData = new InputData();
   await inputData.addSource("graphql", source, () => new GraphQLInput());
 
-  // const lang = new PythonTargetLanguageGQL(operationName, operation);
-  const lang = new TypeScriptTargetLanguageGQL(operationName, operation);
+  const languageName = "TypeScript";
+  const lang = languageNamed(languageName, targetLanguages);
+  const result = await quicktype({ lang, inputData });
 
-  const { lines } = await quicktype({ lang, inputData });
-
-  for (const line of lines) {
+  for (const line of result.lines) {
     console.log(line);
   }
 }

@@ -1,7 +1,7 @@
 // TODO
 import {
-  quicktype, 
-  InputData, 
+  quicktype,
+  InputData,
   JSONSchemaInput,
   cSharpOptions,
   tsFlowOptions,
@@ -23,17 +23,15 @@ import {
 } from "quicktype-core";
 
 export class TypeScriptTargetLanguageGQL extends TypeScriptTargetLanguage {
-  private operationName: string;
-  private operation: string;
-  
-  constructor(operationName: string, operation: string) {
+  constructor() {
     super();
-    this.operationName = operationName;
-    this.operation = operation;
   }
 
-  protected makeRenderer(renderContext: RenderContext, untypedOptionValues: { [name: string]: any }): TypeScriptRenderer {
-    return new TypeScriptRendererGQL(this, renderContext, getOptionValues(tsFlowOptions,untypedOptionValues));
+  protected makeRenderer(
+    renderContext: RenderContext,
+    untypedOptionValues: { [name: string]: any }
+  ): TypeScriptRenderer {
+    return new TypeScriptRendererGQL(this, renderContext, getOptionValues(tsFlowOptions, untypedOptionValues));
   }
 }
 
