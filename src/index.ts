@@ -36,7 +36,7 @@ import { targetLanguages } from "./language/index.js";
 //   headers: HeadersInit;
 // };
 
-async function main(): Promise<void> {
+export async function main(): Promise<void> {
   // console.time("ExecutionTime");
   const schema = JSON.parse(fs.readFileSync("/Users/2003j/dev/wfloat/gqlgen/schema/schema.json", "utf8"));
 

@@ -5,6 +5,9 @@ const config: CodegenConfig = {
   documents: "./example/operations/**/*.graphql",
   generates: {
     "./example/generated/out.txt": {
+      config: {
+        language: "python", // This part here
+      },
       plugins: ["./dist/plugin.js"],
     },
   },
