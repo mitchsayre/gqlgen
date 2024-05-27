@@ -8,5 +8,5 @@ QuickType supports fragments, so the project will as well. Subscriptions will no
 
 Finally, documentation for each target language will be supplied with clear and straightforward examples of how to use the generated code to run operations.
 
-[8] https://github.com/jeremyjh/dialyxir
-[9] https://github.com/glideapps/quicktype/blob/master/.github/workflows/test-pr.yaml
+- [8] https://github.com/jeremyjh/dialyxir
+- [9] https://github.com/glideapps/quicktype/blob/master/.github/workflows/test-pr.yaml
