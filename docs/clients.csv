@@ -1,4 +1,4 @@
-Name,Language,Type-safe included,Type-safe w/ graphql-code-generator,URL
+Name,Language,Type-safe code generation,Type-safe codegen w/ graphql-code-generator,URL
 apollo-client,TypeScript,FALSE,TRUE,https://github.com/apollographql/apollo-client
 apollo-ios,Swift,TRUE,,https://github.com/apollographql/apollo-ios
 apollo-kotlin,Kotlin,TRUE,,https://github.com/apollographql/apollo-kotlin
@@ -42,7 +42,7 @@ python-graphql-client,Python,FALSE,,https://github.com/prisma-labs/python-graphq
 python-qlient,Python,FALSE,,https://github.com/qlient-org/python-qlient
 re-graph,Clojure,FALSE,,https://github.com/oliyh/re-graph
 SAHB.GraphQLClient,.NET,Not really,,https://github.com/sahb1239/SAHB.GraphQLClient
-sgqlc,Python,FALSE,This issue: https://github.com/profusion/sgqlc/issues/129,https://github.com/profusion/sgqlc
+sgqlc,Python,FALSE see: https://github.com/profusion/sgqlc/issues/129,,https://github.com/profusion/sgqlc
 hotchocolate,.NET,TRUE,,https://github.com/ChilliCream/hotchocolate
 swift-graphql,Swift,"Yes, but queries are built in Swift using generated types from Schema",,https://github.com/maticzav/swift-graphql
 urql,TypeScript,FALSE,TRUE,https://github.com/FormidableLabs/urql
