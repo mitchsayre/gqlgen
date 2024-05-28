@@ -4,7 +4,10 @@ import { GraphQLSchema } from "graphql";
 /**
  * @description This is where we will define options the user can pass to our plugin. Like here: https://the-guild.dev/graphql/codegen/docs/custom-codegen/plugin-structure#add-plugin-configuration.
  */
-export interface GqlGenConfig {}
+
+export interface GqlGenConfig {
+  language: string; // Add the language property to the config interface
+}
 
 export const plugin: PluginFunction<GqlGenConfig> = async (
   schema: GraphQLSchema,
@@ -13,7 +16,8 @@ export const plugin: PluginFunction<GqlGenConfig> = async (
   info
 ): Promise<string> => {
   return `Plugin result output to out.txt...
-  operation hashes: ${documents.map(doc => doc.hash).join(", ")}`;
+  operation hashes: ${documents.map(doc => doc.hash).join(", ")}
+  language: ${config.language}`;
 };
 
 export const validate: PluginValidateFn<any> = async (

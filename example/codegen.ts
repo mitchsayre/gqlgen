@@ -6,7 +6,7 @@ const config: CodegenConfig = {
   generates: {
     "./example/generated/out.txt": {
       config: {
-        language: "python", // This part here
+        language: "Python", // This part here
       },
       plugins: ["./dist/plugin.js"],
     },

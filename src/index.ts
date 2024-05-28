@@ -22,6 +22,7 @@ import {
   ClassProperty,
   Name,
   languageNamed,
+  SerializedRenderResult,
 } from "quicktype-core";
 import { GraphQLInput, GraphQLSourceData } from "quicktype-graphql-input";
 import { PythonTargetLanguageGQL } from "./language/Python.js";
