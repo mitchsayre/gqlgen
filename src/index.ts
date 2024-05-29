@@ -37,7 +37,7 @@ import { targetLanguages } from "./language/index.js";
 //   headers: HeadersInit;
 // };
 
-export async function main(): Promise<void> {
+export async function main(language: string): Promise<SerializedRenderResult> {
   // console.time("ExecutionTime");
   const schema = JSON.parse(fs.readFileSync("/Users/2003j/dev/wfloat/gqlgen/schema/schema.json", "utf8"));
 
@@ -56,13 +56,14 @@ export async function main(): Promise<void> {
   const inputData = new InputData();
   await inputData.addSource("graphql", source, () => new GraphQLInput());
 
-  const languageName = "TypeScript";
+  const languageName = language;
   const lang = languageNamed(languageName, targetLanguages);
   const result = await quicktype({ lang, inputData });
 
-  for (const line of result.lines) {
-    console.log(line);
-  }
+  // for (const line of result.lines) {
+  //   console.log(line);
+  // }
+  return result;
 }
 
 // console.timeEnd("ExecutionTime");
