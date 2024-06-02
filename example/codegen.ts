@@ -39,25 +39,49 @@
 
 // export default config;
 
+// import { CodegenConfig } from "@graphql-codegen/cli";
+
+// const config: CodegenConfig = {
+//   schema: "./example/schema.graphql",
+//   documents: "./example/operations/**/*.graphql",
+//   generates: {
+//     // "./example/generated/out.txt": {
+//     //   config: {
+//     //     language: "Python", // This part here
+//     //   },
+//     //   plugins: ["./dist/plugin.js"],
+//     // },
+//     "/home/mitch/dev/wfloat/packages/gqlgen/example/generated": {
+//       preset: "near-operation-file",
+//       presetConfig: {
+//         extension: ".ex",
+//         baseTypesPath: " ",
+//         importTypesNamespace: " ",
+//       },
+//       plugins: ["./dist/plugin.js"],
+//     },
+//   },
+// };
+
+// export default config;
+
 import { CodegenConfig } from "@graphql-codegen/cli";
+import { preset } from "../src/preset.js";
+// import { preset } from "../dist/preset.js";
 
 const config: CodegenConfig = {
   schema: "./example/schema.graphql",
-  documents: "./example/operations/**/*.graphql",
+  documents: "./example/**/*.graphql",
   generates: {
-    // "./example/generated/out.txt": {
-    //   config: {
-    //     language: "Python", // This part here
-    //   },
-    //   plugins: ["./dist/plugin.js"],
-    // },
-    "./example/generated/": {
-      preset: "near-operation-file",
+    "./example/generated": {
+      preset: "./dist/preset.js" as any, // Adjusted relative path
+      // preset: "near-operation-file"
       presetConfig: {
-        extension: ".ex",
-        baseTypesPath: "index.test",
+        extension: ".generated.tsx", // Assuming you want TypeScript files with JSX
+        baseTypesPath: "../types.ts", // Adjusted relative path
+        importTypesNamespace: "GQL", // A meaningful namespace
       },
-      plugins: ["./dist/plugin.js"],
+      plugins: ["./dist/plugin.js"], // Ensure plugins are correct
     },
   },
 };

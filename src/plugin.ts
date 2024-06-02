@@ -1,4 +1,4 @@
-import { PluginFunction, PluginValidateFn, Types } from "@graphql-codegen/plugin-helpers";
+import { PluginFunction, PluginValidateFn, Types, isComplexPluginOutput } from "@graphql-codegen/plugin-helpers";
 import { GraphQLSchema } from "graphql";
 
 /**
@@ -15,6 +15,22 @@ export const plugin: PluginFunction<GqlGenConfig> = async (
   config,
   info
 ): Promise<string> => {
+  // info!.allPlugins![0].add = [];
+  // console.log(config);
+  // console.log(documents.length, "length");
+  console.log(`
+  
+  
+  
+  
+  
+  
+  
+  `);
+  // console.log(info!.allPlugins![0].add);
+  // console.log(`
+
+  // `);
   return `Plugin result output to out.txt...
   operation hashes: ${documents.map(doc => doc.hash).join(", ")}
   language: ${config.language}`;
