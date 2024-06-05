@@ -74,14 +74,12 @@ const config: CodegenConfig = {
   documents: "./example/**/*.graphql",
   generates: {
     "./example/generated": {
-      preset: "./dist/preset.js" as any, // Adjusted relative path
-      // preset: "near-operation-file"
+      preset: "./dist/preset.js" as any, // gqlgen-preset
       presetConfig: {
-        extension: ".generated.tsx", // Assuming you want TypeScript files with JSX
-        baseTypesPath: "../types.ts", // Adjusted relative path
-        importTypesNamespace: "GQL", // A meaningful namespace
+        language: "python",
+        extension: ".generated.tsx",
       },
-      plugins: ["./dist/plugin.js"], // Ensure plugins are correct
+      plugins: ["./dist/plugin.js"], // gqlgen-plugin
     },
   },
 };

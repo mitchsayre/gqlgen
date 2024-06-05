@@ -1,6 +1,6 @@
 import { join } from "path";
 import { buildASTSchema, DocumentNode, FragmentDefinitionNode, GraphQLSchema, Kind } from "graphql";
-import addPlugin from "@graphql-codegen/add";
+// import addPlugin from "@graphql-codegen/add";
 import { CodegenPlugin, Types } from "@graphql-codegen/plugin-helpers";
 import {
   FragmentImport,
@@ -20,83 +20,7 @@ export type FragmentImportFromFn = (
   sourceFilePath: string
 ) => ImportSource<FragmentImport>;
 
-export type NearOperationFileConfig = {
-  /**
-   * @description Required, should point to the base schema types file.
-   * The key of the output is used a the base path for this file.
-   *
-   * If you wish to use an NPM package or a local workspace package, make sure to prefix the package name with `~`.
-   *
-   * @exampleMarkdown
-   * ```ts filename="codegen.ts" {10}
-   *  import type { CodegenConfig } from '@graphql-codegen/cli';
-   *
-   *  const config: CodegenConfig = {
-   *    // ...
-   *    generates: {
-   *      'path/to/file.ts': {
-   *        preset: 'near-operation-file',
-   *        plugins: ['typescript-operations'],
-   *        presetConfig: {
-   *          baseTypesPath: 'types.ts'
-   *        },
-   *      },
-   *    },
-   *  };
-   *  export default config;
-   * ```
-   */
-  baseTypesPath: string;
-  /**
-   * @description Overrides all external fragments import types by using a specific file path or a package name.
-   *
-   * If you wish to use an NPM package or a local workspace package, make sure to prefix the package name with `~`.
-   *
-   * @exampleMarkdown
-   * ```ts filename="codegen.ts" {11}
-   *  import type { CodegenConfig } from '@graphql-codegen/cli';
-   *
-   *  const config: CodegenConfig = {
-   *    // ...
-   *    generates: {
-   *      'path/to/file.ts': {
-   *        preset: 'near-operation-file',
-   *        plugins: ['typescript-operations'],
-   *        presetConfig: {
-   *          baseTypesPath: 'types.ts',
-   *          importAllFragmentsFrom: '~types'
-   *        },
-   *      },
-   *    },
-   *  };
-   *  export default config;
-   * ```
-   */
-  importAllFragmentsFrom?: string | FragmentImportFromFn;
-  /**
-   * @description Optional, sets a specific file name for the generated files. Use this to override the generated file name when generating files for example based on multiple .graphql files in separate directories.
-   *
-   * @exampleMarkdown
-   * ```ts filename="codegen.ts" {11}
-   *  import type { CodegenConfig } from '@graphql-codegen/cli';
-   *
-   *  const config: CodegenConfig = {
-   *    // ...
-   *    generates: {
-   *      'path/to/file.ts': {
-   *        preset: 'near-operation-file',
-   *        plugins: ['typescript-operations', 'typescript-react-apollo'],
-   *        presetConfig: {
-   *          baseTypesPath: 'types.ts',
-   *          fileName: 'index',
-   *        },
-   *      },
-   *    },
-   *  };
-   *  export default config;
-   * ```
-   */
-  fileName?: string;
+export type GqlGenPresetConfig = {
   /**
    * @description Optional, sets the extension for the generated files. Use this to override the extension if you are using plugins that requires a different type of extensions (such as `typescript-react-apollo`)
    * @default .generated.ts
@@ -122,119 +46,33 @@ export type NearOperationFileConfig = {
    * ```
    */
   extension?: string;
-  /**
-   * @description Optional, override the `cwd` of the execution. We are using `cwd` to figure out the imports between files. Use this if your execution path is not your project root directory.
-   * @default process.cwd()
-   *
-   * @exampleMarkdown
-   * ```ts filename="codegen.ts" {11}
-   *  import type { CodegenConfig } from '@graphql-codegen/cli';
-   *
-   *  const config: CodegenConfig = {
-   *    // ...
-   *    generates: {
-   *      'path/to/file.ts': {
-   *        preset: 'near-operation-file',
-   *        plugins: ['typescript-operations'],
-   *        presetConfig: {
-   *          baseTypesPath: 'types.ts',
-   *          cwd: '/some/path'
-   *        },
-   *      },
-   *    },
-   *  };
-   *  export default config;
-   * ```
-   */
-  cwd?: string;
-  /**
-   * @description Optional, defines a folder, (Relative to the source files) where the generated files will be created.
-   * @default ''
-   *
-   * @exampleMarkdown
-   * ```ts filename="codegen.ts" {11}
-   *  import type { CodegenConfig } from '@graphql-codegen/cli';
-   *
-   *  const config: CodegenConfig = {
-   *    // ...
-   *    generates: {
-   *      'path/to/file.ts': {
-   *        preset: 'near-operation-file',
-   *        plugins: ['typescript-operations'],
-   *        presetConfig: {
-   *          baseTypesPath: 'types.ts',
-   *          folder: '__generated__'
-   *        },
-   *      },
-   *    },
-   *  };
-   *  export default config;
-   * ```
-   */
-  folder?: string;
-  /**
-   * @description Optional, override the name of the import namespace used to import from the `baseTypesPath` file.
-   * @default Types
-   *
-   * @exampleMarkdown
-   * ```ts filename="codegen.ts" {11}
-   *  import type { CodegenConfig } from '@graphql-codegen/cli';
-   *
-   *  const config: CodegenConfig = {
-   *    // ...
-   *    generates: {
-   *      'path/to/file.ts': {
-   *        preset: 'near-operation-file',
-   *        plugins: ['typescript-operations'],
-   *        presetConfig: {
-   *          baseTypesPath: 'types.ts',
-   *          importTypesNamespace: 'SchemaTypes'
-   *        },
-   *      },
-   *    },
-   *  };
-   *  export default config;
-   * ```
-   */
-  importTypesNamespace?: string;
 };
 
-export type FragmentNameToFile = {
-  [fragmentName: string]: {
-    location: string;
-    importsNames: string[];
-    onType: string;
-    node: FragmentDefinitionNode;
-  };
-};
+// export type FragmentNameToFile = {
+//   [fragmentName: string]: {
+//     location: string;
+//     importsNames: string[];
+//     onType: string;
+//     node: FragmentDefinitionNode;
+//   };
+// };
 
-export const preset: Types.OutputPreset<NearOperationFileConfig> = {
+export const preset: Types.OutputPreset<GqlGenPresetConfig> = {
   buildGeneratesSection: options => {
     const schemaObject: GraphQLSchema = options.schemaAst
       ? options.schemaAst
       : buildASTSchema(options.schema, options.config as any);
-    const baseDir = options.presetConfig.cwd || process.cwd();
-    const fileName = options.presetConfig.fileName || "";
-    const extension = options.presetConfig.extension || ".generated.ts";
-    const folder = options.presetConfig.folder || "";
-    const importTypesNamespace = options.presetConfig.importTypesNamespace || "Types";
-    const importAllFragmentsFrom: FragmentImportFromFn | string | null =
-      options.presetConfig.importAllFragmentsFrom || null;
 
-    const { baseTypesPath } = options.presetConfig;
-
-    if (!baseTypesPath) {
-      throw new Error(
-        `Preset "near-operation-file" requires you to specify "baseTypesPath" configuration and point it to your base types file (generated by "typescript" plugin)!`
-      );
-    }
-
-    const shouldAbsolute = !baseTypesPath.startsWith("~");
+    // const baseDir = options.presetConfig.cwd || process.cwd();
+    // const fileName = options.presetConfig.fileName || "";
+    const extension = options.presetConfig.extension;
 
     const pluginMap: { [name: string]: CodegenPlugin } = {
       ...options.pluginMap,
-      add: addPlugin,
+      // add: addPlugin, TODO: add entrypoint and utils plugins
     };
+
+    const baseDir = process.cwd();
 
     const sources = resolveDocumentImports(
       options,
@@ -270,6 +108,7 @@ export const preset: Types.OutputPreset<NearOperationFileConfig> = {
     >();
 
     for (const source of sources) {
+      console.log(source, "source here!");
       let record = filePathsMap.get(source.filename);
       if (record === undefined) {
         record = {
@@ -281,9 +120,9 @@ export const preset: Types.OutputPreset<NearOperationFileConfig> = {
         filePathsMap.set(source.filename, record);
       }
 
-      for (const importStatement of source.importStatements) {
-        record.importStatements.add(importStatement);
-      }
+      // for (const importStatement of source.importStatements) {
+      //   record.importStatements.add(importStatement);
+      // }
       record.documents.push(...source.documents);
       record.externalFragments.push(...source.externalFragments);
       record.fragmentImports.push(...source.fragmentImports);
@@ -327,13 +166,17 @@ export const preset: Types.OutputPreset<NearOperationFileConfig> = {
       });
       fragmentImportsArr = Object.values(fragmentImportsByImportSource);
 
+      // top level
+      // entry point
+      // utils
+
       const plugins = [
-        // TODO/NOTE I made globalNamespace include schema types - is that correct?
-        ...(options.config.globalNamespace
-          ? []
-          : Array.from(record.importStatements).map(importStatement => ({
-              add: { content: importStatement },
-            }))),
+        // // TODO/NOTE I made globalNamespace include schema types - is that correct?
+        // ...(options.config.globalNamespace
+        //   ? []
+        //   : Array.from(record.importStatements).map(importStatement => ({
+        //       add: { content: importStatement },
+        //     }))),
         ...options.plugins,
       ];
       const config = {
@@ -363,19 +206,25 @@ export const preset: Types.OutputPreset<NearOperationFileConfig> = {
         filename,
         documents: [combinedSource],
         plugins,
-        pluginMap,
         config,
         schema: options.schema,
         schemaAst: schemaObject,
-        skipDocumentsValidation:
-          typeof options.config.skipDocumentsValidation === "undefined"
-            ? { skipDuplicateValidation: true }
-            : options.config.skipDocumentsValidation,
+        // skipDocumentsValidation:
+        //   typeof options.config.skipDocumentsValidation === "undefined"
+        //     ? { skipDuplicateValidation: true }
+        //     : options.config.skipDocumentsValidation,
       });
     }
 
     artifacts.forEach((artifact, index) => {
       console.log(`artifact ${index} length: ${artifact.filename}`);
+      Object.entries(artifact).forEach(([key, value]) => {
+        console.log(`${key}: ${value}`);
+      });
+      console.log(`--------------------
+        
+        
+      `);
     });
 
     // console.log(
