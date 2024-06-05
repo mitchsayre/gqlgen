@@ -19,3 +19,9 @@ npm run codegen
 # Or in watch mode
 npm run codegen:watch
 ```
+
+```bash
+# Test query
+# go to the graphqlzero-api directory
+npm run start
+```
