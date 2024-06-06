@@ -5,8 +5,8 @@
   "description": "GraphQLZero: A simple, zero-config fake GraphQL API.",
   "main": "src/api.js",
   "scripts": {
-    "start": "ts-node src/api.ts",
-    "deploy": "serverless deploy"
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,6 @@
   "dependencies": {
     "@apollo/server": "^4.9.5",
     "@apollo/server-plugin-landing-page-graphql-playground": "^4.0.1",
-    "@as-integrations/aws-lambda": "^3.0.0",
     "@graphql-tools/utils": "^10.0.8",
     "graphql": "^16.7.1",
     "graphql-tag": "^2.12.6",
@@ -31,8 +30,6 @@
     "@types/parse-link-header": "^2.0.1",
     "encoding": "^0.1.13",
     "ts-loader": "^9.5.0",
-    "typescript": "^5.2.2",
-    "webpack": "^5.89.0",
-    "webpack-cli": "^5.1.4"
+    "typescript": "^5.2.2"
   }
 }
