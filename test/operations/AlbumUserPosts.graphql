@@ -1,0 +1,17 @@
+query AlbumUserPosts($options: PageQueryOptions) {
+  album(id: "10") {
+    id
+    title
+    user {
+      id
+      email
+      name
+      posts(options: $options) {
+        data {
+          title
+          id
+        }
+      }
+    }
+  }
+}
