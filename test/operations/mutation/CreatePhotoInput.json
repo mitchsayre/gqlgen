@@ -1,0 +1,7 @@
+{
+  "input": {
+    "url": "https://example.com/photo.jpg",
+    "title": "My New Photo",
+    "thumbnailUrl": "https://example.com/photo.jpg"
+  }
+}

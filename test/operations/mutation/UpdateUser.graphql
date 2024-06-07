@@ -1,0 +1,26 @@
+mutation Mutation($updateUserId: ID!, $input: UpdateUserInput!) {
+  updateUser(id: $updateUserId, input: $input) {
+    albums {
+      links {
+        first {
+          limit
+          page
+        }
+        last {
+          limit
+          page
+        }
+      }
+      meta {
+        totalCount
+      }
+    }
+    posts {
+      data {
+        body
+        id
+        title
+      }
+    }
+  }
+}

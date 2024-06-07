@@ -1,0 +1,26 @@
+query UserPostCommentsPostUserCompany($userId: ID!) {
+  user(id: $userId) {
+    posts {
+      data {
+        comments {
+          data {
+            name
+            id
+            email
+            body
+            post {
+              title
+              user {
+                company {
+                  bs
+                  catchPhrase
+                  name
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

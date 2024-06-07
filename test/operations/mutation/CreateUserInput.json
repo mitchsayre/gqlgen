@@ -1,0 +1,19 @@
+{
+  "input": {
+    "email": "test@gamil.com",
+    "name": "test",
+    "username": "test",
+    "address": {
+      "city": "Maumee",
+      "geo": {
+        "lat": "1",
+        "lng": "1"
+      },
+      "street": "xxx ave",
+      "suite": "xxx",
+      "zipcode": "1234567890"
+    },
+    "phone": "419-000-0000",
+    "website": "abc.com"
+  }
+}

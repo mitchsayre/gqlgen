@@ -1,0 +1,8 @@
+query Photos($options: PageQueryOptions) {
+  photos(options: $options) {
+    data {
+      id
+      title
+    }
+  }
+}

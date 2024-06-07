@@ -1,0 +1,24 @@
+query PostUserAddressCompanyTodoLinkFirst() {
+  post(id: "234") {
+    id
+    title
+    user {
+      address {
+        city
+      }
+      company {
+        name
+      }
+      todos {
+        links {
+          first {
+            limit
+            page
+          }
+        }
+      }
+      username
+      website
+    }
+  }
+}

@@ -1,0 +1,13 @@
+uery AlbumsLinkMeta($options: PageQueryOptions) {
+  albums(options: $options) {
+    links {
+      first {
+        limit
+        page
+      }
+    }
+    meta {
+      totalCount
+    }
+  }
+}

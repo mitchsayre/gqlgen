@@ -1,0 +1,18 @@
+query PostMetaComments($options: PageQueryOptions) {
+  posts {
+    meta {
+      totalCount
+    }
+    data {
+      body
+      id
+      comments(options: $options) {
+        links {
+          first {
+            page
+          }
+        }
+      }
+    }
+  }
+}

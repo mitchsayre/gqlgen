@@ -1,0 +1,28 @@
+Mutation CreateAlbum($input: CreateAlbumInput!) {
+  createAlbum(input: $input) {
+    id
+    title
+    user {
+      name
+      email
+      posts {
+        links {
+          first {
+            limit
+            page
+          }
+          last {
+            limit
+            page
+          }
+        }
+      }
+      todos {
+        data {
+          completed
+          id
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "options": {
+    "paginate": {
+      "limit": "12",
+      "page": "5"
+    }
+  }
+}

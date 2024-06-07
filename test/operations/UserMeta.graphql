@@ -1,0 +1,7 @@
+query UserMeta($options: PageQueryOptions) {
+  users(options: $options) {
+    meta {
+      totalCount
+    }
+  }
+}

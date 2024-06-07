@@ -1,0 +1,17 @@
+mutation Mutation($updatePostId: ID!, $input: UpdatePostInput!) {
+  updatePost(id: $updatePostId, input: $input) {
+    body
+    id
+    comments {
+      links {
+        first {
+          limit
+          page
+        }
+      }
+      meta {
+        totalCount
+      }
+    }
+  }
+}

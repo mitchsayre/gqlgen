@@ -1,0 +1,15 @@
+{  
+  "updateUserId": "123",
+  "input": {
+    "address": {
+      "city": "new city",
+      "geo": "new geo"
+    },
+    "company": {
+      "name": "big company"
+    },
+    "email": "test@gmail.com",
+    "name": "test name",
+    "phone": "419-123-4567"
+  }
+}

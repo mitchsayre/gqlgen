@@ -1,0 +1,20 @@
+query PhotoAlbumPhotosMeta($photoId: ID!) {
+  photo(id: $photoId) {
+    id
+    thumbnailUrl
+    title
+    url
+    album {
+      title
+      id
+      photos {
+        meta {
+          totalCount
+        }
+        data {
+          thumbnailUrl
+        }
+      }
+    }
+  }
+}

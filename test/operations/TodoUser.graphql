@@ -1,0 +1,14 @@
+query TodoUser($todoId: ID!) {
+  todo(id: $todoId) {
+    completed
+    id
+    title
+    user {
+      email
+      name
+      phone
+      username
+      website
+    }
+  }
+}

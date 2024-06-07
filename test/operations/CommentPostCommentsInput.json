@@ -1,0 +1,16 @@
+{
+  "commentId": "914",
+  "options": {
+    "paginate": {
+      "limit": "8"
+    },
+    "search": {
+      "q": "tennis"
+    },
+    "operators": [
+      {
+        "field": "category"
+      }
+    ]
+  }
+}

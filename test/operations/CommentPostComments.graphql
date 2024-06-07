@@ -1,0 +1,23 @@
+query CommentPostComments($commentId: ID!, $options: PageQueryOptions) {
+  comment(id: $commentId) {
+    body
+    email
+    id
+    name
+    post {
+      body
+      id
+      title
+      comments(options: $options) {
+        links {
+          prev {
+            limit
+          }
+        }
+        meta {
+          totalCount
+        }
+      }
+    }
+  }
+}
