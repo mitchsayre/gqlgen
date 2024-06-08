@@ -28,6 +28,9 @@ import { GraphQLInput, GraphQLSourceData } from "quicktype-graphql-input";
 import { PythonTargetLanguageGQL } from "./language/Python.js";
 import { targetLanguages } from "./language/index.js";
 // import { makeQuicktypeOptions, CLIOptions } from "quicktype";
+import fetch from "node-fetch";
+import { getIntrospectionQuery } from "graphql";
+// import { runIntrospection } from "./callIntroPlugin.js";
 
 // type GraphQLInputType = {
 //   name: string;
@@ -39,10 +42,21 @@ import { targetLanguages } from "./language/index.js";
 
 export async function main(language: string): Promise<SerializedRenderResult> {
   // console.time("ExecutionTime");
-  const schema = JSON.parse(fs.readFileSync("/Users/2003j/dev/wfloat/gqlgen/schema/schema.json", "utf8"));
+  // const schema = JSON.parse(fs.readFileSync("/Users/2003j/dev/wfloat/gqlgen/schema/schema.json", "utf8"));
+
+  // 1. https://github.com/prisma-labs/get-graphql-schema/blob/master/src/index.ts
+  const response = await fetch("http://localhost:4000/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ query: getIntrospectionQuery() }),
+  });
+  const schema = await response.json();
+
+  // 2. Call introspection plugin function
+  // const s = await runIntrospection();
+  // const schema = JSON.parse(JSON.stringify(s));
 
   // for (let index = 0; index < 1000; index++) {
-
   const operationName = "AIHubVoiceModels";
   const operation =
     "query AIHubVoiceModels($after: String) { AIHubVoiceModels(first: 100, minDownloadCount: 75, after: $after) { pageInfo { endCursor hasNextPage hasPreviousPage startCursor } edges { node { downloadCount filename name checksumMD5ForWeights inferredProfile { accent confidence fictional gender id modelTrainedOnEnglishProbability name nativeLanguage relevantTags voiceModelId } backupUrls(first: 20) { edges { node { id url voiceModelId } } } } } } }";
@@ -69,7 +83,7 @@ export async function main(language: string): Promise<SerializedRenderResult> {
 // console.timeEnd("ExecutionTime");
 // }
 
-// main();
+// const x = main("TypeScript");
 
 async function temp(): Promise<void> {
   const inputData = new InputData();

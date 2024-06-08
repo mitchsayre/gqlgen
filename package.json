@@ -13,6 +13,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@graphql-codegen/introspection": "^4.0.3",
         "chokidar": "^3.6.0",
         "graphql": "^16.8.1",
         "quicktype": "^23.0.162",
@@ -22,6 +23,7 @@
         "@graphql-codegen/cli": "^5.0.2",
         "@graphql-codegen/near-operation-file-preset": "^3.0.0",
         "@parcel/watcher": "^2.4.1",
+        "@types/node-fetch": "^2.6.11",
         "typescript": "^5.4.5"
     }
 }

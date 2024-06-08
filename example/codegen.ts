@@ -70,7 +70,7 @@ import { preset } from "../src/preset.js";
 // import { preset } from "../dist/preset.js";
 
 const config: CodegenConfig = {
-  schema: "./example/schema.graphql",
+  schema: ["./example/schema.graphql", "http://localhost:4000/"],
   documents: "./example/**/*.graphql",
   generates: {
     "./example/generated": {
@@ -81,7 +81,12 @@ const config: CodegenConfig = {
       },
       plugins: ["./dist/plugin.js"], // gqlgen-plugin
     },
+    // "./example/generated/schema.json": {
+    //   plugins: ["introspection"],
+    //   config: {
+    //     minify: true,
+    //   },
+    // },
   },
 };
-
 export default config;
