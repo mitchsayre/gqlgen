@@ -45,21 +45,30 @@ import json`);
     this.emitLine("# TODO: This should show up at the end");
     this.emitBlock(["def send_request():"], () => {
       this.emitMultiline(`url = "http://localhost:4000"
-        headers = {
-            "Authorization": "<DONT_COMMIT_AUTH_TOKEN_TO_GITHUB>",
-            "Content-Type": "application/json"
+headers = {
+    "Authorization": "<DONT_COMMIT_AUTH_TOKEN_TO_GITHUB>",
+    "Content-Type": "application/json"
+}
+payload = {
+    uery AlbumsLinkMeta($options: PageQueryOptions) {
+        albums(options: $options) {
+            links {
+                first {
+                    limit
+                    page
+                }
+            }
+            meta {
+                totalCount
+            }
         }
-        payload = {
-            "query": """query VoiceModels($after: String) { VoiceModels(first: 2, after: $after) { edges { cursor node { checksumMD5ForAdded checksumMD5ForWeights checksumSHA256ForAdded checksumSHA256ForWeights filesizeForAdded filesizeForWeights hidden id name processed } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } }""",
-            "operationName": "VoiceModels",
-            "variables": {"id": None}
-        }
+    }
+}
 
-        response = requests.post(url, headers=headers, data=json.dumps(payload))
-        response.raise_for_status()  # Raises an HTTPError for bad responses (4xx and 5xx)
+response = requests.post(url, headers=headers, data=json.dumps(payload))
 
-        result = response.json()
-        return result`);
+result = response.json()
+return result`);
     });
   }
 }
