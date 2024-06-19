@@ -1,4 +1,4 @@
-uery AlbumsLinkMeta($options: PageQueryOptions) {
+query AlbumsLinkMeta($options: PageQueryOptions) {
   albums(options: $options) {
     links {
       first {
