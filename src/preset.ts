@@ -1,4 +1,4 @@
-import { join } from "path";
+import path from "path";
 import { buildASTSchema, DocumentNode, FragmentDefinitionNode, GraphQLSchema, Kind } from "graphql";
 // import addPlugin from "@graphql-codegen/add";
 import { CodegenPlugin, Types } from "@graphql-codegen/plugin-helpers";
@@ -12,6 +12,7 @@ import {
 import type { Source } from "@graphql-tools/utils";
 import { DocumentImportResolverOptions, resolveDocumentImports } from "./resolve-document-imports.js";
 import { appendFileNameToFilePath, defineFilepathSubfolder } from "./utils.js";
+import { plugin as runIntrospectionPlugin } from "@graphql-codegen/introspection";
 
 export { resolveDocumentImports, DocumentImportResolverOptions };
 
@@ -59,6 +60,8 @@ export type GqlGenPresetConfig = {
 
 export const preset: Types.OutputPreset<GqlGenPresetConfig> = {
   buildGeneratesSection: options => {
+    const startTime = performance.now();
+
     const schemaObject: GraphQLSchema = options.schemaAst
       ? options.schemaAst
       : buildASTSchema(options.schema, options.config as any);
@@ -80,18 +83,22 @@ export const preset: Types.OutputPreset<GqlGenPresetConfig> = {
       {
         baseDir,
         generateFilePath(location: string) {
-          const newFilePath = defineFilepathSubfolder(location, folder);
-
-          return appendFileNameToFilePath(newFilePath, fileName, extension);
+          // const newFilePath = defineFilepathSubfolder(location, folder);
+          console.log(location, "location here!");
+          const filename = path.basename(location, path.extname(location));
+          return path.join(options.baseOutputDir, `${filename}.py`);
+          // joing with baseOutputDir and strip off the location end of it and strip off the extension and use
         },
         schemaTypesSource: {
-          path: shouldAbsolute ? join(options.baseOutputDir, baseTypesPath) : baseTypesPath,
-          namespace: importTypesNamespace,
+          path: path.join(options.baseOutputDir),
+          namespace: "NamespaceHere",
         },
         typesImport: options.config.useTypeImports ?? false,
       },
       getConfigValue(options.config.dedupeFragments, false)
     );
+
+    // console.log(sources, "sources here!\n\n\n\n");
 
     const filePathsMap = new Map<
       string,
@@ -108,7 +115,7 @@ export const preset: Types.OutputPreset<GqlGenPresetConfig> = {
     >();
 
     for (const source of sources) {
-      console.log(source, "source here!");
+      // console.log(source, "source here!");
       let record = filePathsMap.get(source.filename);
       if (record === undefined) {
         record = {
@@ -133,7 +140,7 @@ export const preset: Types.OutputPreset<GqlGenPresetConfig> = {
     for (const [filename, record] of filePathsMap.entries()) {
       let fragmentImportsArr = record.fragmentImports;
 
-      if (importAllFragmentsFrom) {
+      if (false) {
         fragmentImportsArr = record.fragmentImports.map<ImportDeclaration<FragmentImport>>(t => {
           const newImportSource: ImportSource<FragmentImport> =
             typeof importAllFragmentsFrom === "string"
@@ -184,7 +191,7 @@ export const preset: Types.OutputPreset<GqlGenPresetConfig> = {
         // This is set here in order to make sure the fragment spreads sub types
         // are exported from operations file
         exportFragmentSpreadSubTypes: true,
-        namespacedImportName: importTypesNamespace,
+        namespacedImportName: "NamespaceHere",
         externalFragments: record.externalFragments,
         fragmentImports: fragmentImportsArr,
       };
@@ -197,8 +204,13 @@ export const preset: Types.OutputPreset<GqlGenPresetConfig> = {
       };
 
       for (const source of record.documents) {
-        combinedSource.rawSDL += source.rawSDL;
-        (combinedSource.document.definitions as any).push(...source.document.definitions);
+        if (source.rawSDL) {
+          combinedSource.rawSDL += source.rawSDL;
+        }
+
+        if (combinedSource.document && source.document) {
+          (combinedSource.document.definitions as any).push(...source.document.definitions);
+        }
       }
 
       artifacts.push({
@@ -215,16 +227,21 @@ export const preset: Types.OutputPreset<GqlGenPresetConfig> = {
         //     : options.config.skipDocumentsValidation,
       });
     }
+    const introspectionResult = runIntrospectionPlugin(schemaObject, options.documents, options.config);
+
+    // Calculate and log the duration
+
+    // console.log(introspectionResult, "introspectionResult");
+    console.log("artifactshere", artifacts);
 
     artifacts.forEach((artifact, index) => {
-      console.log(`artifact ${index} length: ${artifact.filename}`);
+      // console.log(`artifact ${index} length: ${artifact.filename}`);
       Object.entries(artifact).forEach(([key, value]) => {
-        console.log(`${key}: ${value}`);
+        // console.log(`${key}: ${value}`);
       });
-      console.log(`--------------------
-        
-        
-      `);
+      // console.log(`--------------------
+
+      // `);
     });
 
     // console.log(
@@ -233,7 +250,9 @@ export const preset: Types.OutputPreset<GqlGenPresetConfig> = {
 
     // `
     // );
-
+    const endTime = performance.now();
+    const duration = endTime - startTime;
+    console.log(`The function took ${duration} milliseconds.`);
     return artifacts;
   },
 };

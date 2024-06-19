@@ -22,7 +22,7 @@ export const plugin: PluginFunction<GqlGenConfig> = async (
   
   
   
-  
+  aaaaaaaa
   
   
   
