@@ -77,17 +77,12 @@ const config: CodegenConfig = {
     "./example/generated": {
       preset: "./dist/preset.js" as any, // gqlgen-preset
       presetConfig: {
-        language: "python",
-        extension: ".generated.tsx",
+        language: "Python",
+        // extension: "foo",
+        preserveFiles: [".gitignore"],
       },
       plugins: ["./dist/plugin.js"], // gqlgen-plugin
     },
-    // "./example/generated/schema.json": {
-    //   plugins: ["introspection"],
-    //   config: {
-    //     minify: true,
-    //   },
-    // },
   },
 };
 export default config;

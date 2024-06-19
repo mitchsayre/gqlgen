@@ -52,13 +52,20 @@ export const plugin: PluginFunction<GqlGenConfig> = async (
     query: document.rawSDL!,
     schema: config.introspectionResultJson,
   };
-
   const inputData = new InputData();
   await inputData.addSource("graphql", source, () => new GraphQLInput());
 
-  const languageName = "Python";
-  const lang = languageNamed(languageName, targetLanguages);
-  const result = await quicktype({ lang, inputData });
+  const lang = languageNamed(config.language, targetLanguages);
+  const result = await quicktype({
+    lang,
+    inputData,
+    rendererOptions: {
+      // namespace: "MyNamespace.Foobar.UpdateComment",
+      "just-types": false,
+      // "just-types": "false",
+      "python-version": "3.7",
+    },
+  });
 
   return `${result.lines.join("\n")}`;
 };

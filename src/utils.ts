@@ -1,6 +1,6 @@
 import { join } from "path";
 import { DocumentNode, FragmentDefinitionNode, FragmentSpreadNode } from "graphql";
-import parsePath from "parse-filepath";
+// import parsePath from "parse-filepath";
 import { oldVisit } from "@graphql-codegen/plugin-helpers";
 import { FragmentRegistry } from "./fragment-resolver.js";
 

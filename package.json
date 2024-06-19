@@ -16,8 +16,9 @@
         "@graphql-codegen/introspection": "^4.0.3",
         "chokidar": "^3.6.0",
         "graphql": "^16.8.1",
-        "quicktype": "^23.0.162",
-        "quicktype-graphql-input": "^23.0.162"
+        "quicktype": "^23.0.170",
+        "quicktype-core": "^23.0.170",
+        "quicktype-graphql-input": "^23.0.170"
     },
     "devDependencies": {
         "@graphql-codegen/cli": "^5.0.2",

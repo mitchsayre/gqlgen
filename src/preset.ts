@@ -1,6 +1,6 @@
+import { promises as fs, existsSync } from "fs";
 import path from "path";
 import { buildASTSchema, DocumentNode, FragmentDefinitionNode, GraphQLSchema, Kind } from "graphql";
-// import addPlugin from "@graphql-codegen/add";
 import { CodegenPlugin, Types } from "@graphql-codegen/plugin-helpers";
 import {
   FragmentImport,
@@ -22,45 +22,52 @@ export type FragmentImportFromFn = (
 ) => ImportSource<FragmentImport>;
 
 export type GqlGenPresetConfig = {
-  /**
-   * @description Optional, sets the extension for the generated files. Use this to override the extension if you are using plugins that requires a different type of extensions (such as `typescript-react-apollo`)
-   * @default .generated.ts
-   *
-   * @exampleMarkdown
-   * ```ts filename="codegen.ts" {11}
-   *  import type { CodegenConfig } from '@graphql-codegen/cli';
-   *
-   *  const config: CodegenConfig = {
-   *    // ...
-   *    generates: {
-   *      'path/to/file.ts': {
-   *        preset: 'near-operation-file',
-   *        plugins: ['typescript-operations', 'typescript-react-apollo'],
-   *        presetConfig: {
-   *          baseTypesPath: 'types.ts',
-   *          extension: '.generated.tsx',
-   *        },
-   *      },
-   *    },
-   *  };
-   *  export default config;
-   * ```
-   */
+  language: keyof typeof languages;
   extension?: string;
+  preserveFiles?: string[];
 };
 
-// export type FragmentNameToFile = {
-//   [fragmentName: string]: {
-//     location: string;
-//     importsNames: string[];
-//     onType: string;
-//     node: FragmentDefinitionNode;
-//   };
-// };
+const languages = {
+  Python: {
+    extension: "py",
+    filenameCaseStyle: "snake",
+  },
+  TypeScript: {
+    extension: "ts",
+    filenameCaseStyle: "pascal",
+  },
+  Elixir: {
+    extension: "ex",
+    filenameCaseStyle: "snake",
+  },
+  CPlusPlus: {
+    extension: "cpp",
+    filenameCaseStyle: "pascal",
+  },
+};
+
+async function emptyDirectory(dirPath: string, preserveFiles?: string[]): Promise<void> {
+  if (!existsSync(dirPath)) {
+    return;
+  }
+
+  const files = await fs.readdir(dirPath);
+  for (const file of files) {
+    if (preserveFiles) {
+      if (!preserveFiles.includes(file)) {
+        const fullPath = path.join(dirPath, file);
+        console.log(fullPath);
+        await fs.rm(fullPath, { recursive: true });
+      }
+    }
+  }
+}
 
 export const preset: Types.OutputPreset<GqlGenPresetConfig> = {
   buildGeneratesSection: async options => {
     const startTime = performance.now();
+
+    await emptyDirectory(options.baseOutputDir, options.presetConfig.preserveFiles);
 
     const schemaObject: GraphQLSchema = options.schemaAst
       ? options.schemaAst
@@ -83,8 +90,19 @@ export const preset: Types.OutputPreset<GqlGenPresetConfig> = {
       {
         baseDir,
         generateFilePath(location: string) {
-          const filename = path.basename(location, path.extname(location));
-          return path.join(options.baseOutputDir, `${filename}.py`);
+          let filename = path.basename(location, path.extname(location));
+          const language = options.presetConfig.language as keyof typeof languages;
+          const languageInfo = languages[language];
+          if (languageInfo.filenameCaseStyle === "snake") {
+            filename = filename
+              .split(/\.?(?=[A-Z])/)
+              .join("_")
+              .toLowerCase();
+          }
+          return path.join(
+            options.baseOutputDir,
+            `${filename}.${options.presetConfig.extension ?? languageInfo.extension}`
+          );
         },
         schemaTypesSource: {
           path: path.join(options.baseOutputDir),
@@ -94,8 +112,6 @@ export const preset: Types.OutputPreset<GqlGenPresetConfig> = {
       },
       getConfigValue(options.config.dedupeFragments, false)
     );
-
-    // console.log(sources, "sources here!\n\n\n\n");
 
     const filePathsMap = new Map<
       string,
@@ -189,6 +205,7 @@ export const preset: Types.OutputPreset<GqlGenPresetConfig> = {
 
       const config = {
         ...options.config,
+        language: options.presetConfig.language,
         introspectionResultJson: introspectionResultJson,
         // This is set here in order to make sure the fragment spreads sub types
         // are exported from operations file
