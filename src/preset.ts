@@ -59,7 +59,7 @@ export type GqlGenPresetConfig = {
 // };
 
 export const preset: Types.OutputPreset<GqlGenPresetConfig> = {
-  buildGeneratesSection: options => {
+  buildGeneratesSection: async options => {
     const startTime = performance.now();
 
     const schemaObject: GraphQLSchema = options.schemaAst
@@ -83,11 +83,8 @@ export const preset: Types.OutputPreset<GqlGenPresetConfig> = {
       {
         baseDir,
         generateFilePath(location: string) {
-          // const newFilePath = defineFilepathSubfolder(location, folder);
-          console.log(location, "location here!");
           const filename = path.basename(location, path.extname(location));
           return path.join(options.baseOutputDir, `${filename}.py`);
-          // joing with baseOutputDir and strip off the location end of it and strip off the extension and use
         },
         schemaTypesSource: {
           path: path.join(options.baseOutputDir),
@@ -186,14 +183,19 @@ export const preset: Types.OutputPreset<GqlGenPresetConfig> = {
         //     }))),
         ...options.plugins,
       ];
+
+      const introspectionResult = await runIntrospectionPlugin(schemaObject, options.documents, options.config);
+      const introspectionResultJson = { data: JSON.parse(introspectionResult as any) };
+
       const config = {
         ...options.config,
+        introspectionResultJson: introspectionResultJson,
         // This is set here in order to make sure the fragment spreads sub types
         // are exported from operations file
-        exportFragmentSpreadSubTypes: true,
-        namespacedImportName: "NamespaceHere",
-        externalFragments: record.externalFragments,
-        fragmentImports: fragmentImportsArr,
+        // exportFragmentSpreadSubTypes: true,
+        // namespacedImportName: "NamespaceHereAAA",
+        // externalFragments: record.externalFragments,
+        // fragmentImports: fragmentImportsArr,
       };
 
       const document: DocumentNode = { kind: Kind.DOCUMENT, definitions: [] };
@@ -227,12 +229,9 @@ export const preset: Types.OutputPreset<GqlGenPresetConfig> = {
         //     : options.config.skipDocumentsValidation,
       });
     }
-    const introspectionResult = runIntrospectionPlugin(schemaObject, options.documents, options.config);
-
-    // Calculate and log the duration
 
     // console.log(introspectionResult, "introspectionResult");
-    console.log("artifactshere", artifacts);
+    // console.log("artifactshere", artifacts);
 
     artifacts.forEach((artifact, index) => {
       // console.log(`artifact ${index} length: ${artifact.filename}`);
