@@ -5,7 +5,7 @@ import { Types } from "@graphql-codegen/plugin-helpers";
 import { FragmentImport, ImportSource } from "@graphql-codegen/visitor-plugin-common";
 import type { Source } from "@graphql-tools/utils";
 import { plugin as runIntrospectionPlugin } from "@graphql-codegen/introspection";
-import { plugin as entrypointPlugin } from "./entrypoint-plugin.js";
+import * as entrypointPlugin from "./entrypointPlugin";
 
 export type FragmentImportFromFn = (
   source: ImportSource<FragmentImport>,
@@ -47,7 +47,6 @@ async function emptyDirectory(dirPath: string, preserveFiles?: string[]): Promis
     if (preserveFiles) {
       if (!preserveFiles.includes(file)) {
         const fullPath = path.join(dirPath, file);
-        console.log(fullPath);
         await fs.rm(fullPath, { recursive: true });
       }
     }
@@ -61,8 +60,6 @@ export const preset: Types.OutputPreset<GqlgenPresetConfig> = {
     const schemaObject: GraphQLSchema = options.schemaAst
       ? options.schemaAst
       : buildASTSchema(options.schema, options.config as any);
-
-    const baseDir = process.cwd();
 
     const sources = options.documents.map(documentFile => {
       let filename = path.basename(documentFile.location!, path.extname(documentFile.location!));
@@ -143,6 +140,22 @@ export const preset: Types.OutputPreset<GqlgenPresetConfig> = {
         schemaAst: schemaObject,
       });
     }
+
+    const entrypointPlugins: Array<Types.ConfiguredPlugin> = [
+      { [`entrypointPlugin`]: { content: `/* eslint-disable */` } },
+    ];
+    const entrypointPluginMap = { [`entrypointPlugin`]: entrypointPlugin } as any;
+    const entrypointArtifact: Types.GenerateOptions = {
+      ...options,
+      filename: path.join(options.baseOutputDir, "__init__.py"),
+      documents: options.documents,
+      plugins: entrypointPlugins,
+      pluginMap: entrypointPluginMap,
+      config: {},
+      schema: options.schema,
+      schemaAst: schemaObject,
+    };
+    artifacts.push(entrypointArtifact);
 
     return artifacts;
   },

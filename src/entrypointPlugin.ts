@@ -17,7 +17,7 @@ export const plugin: PluginFunction<GqlgenEntrypointConfig> = async (
   config,
   info
 ): Promise<string> => {
-  return "this is the entrypoint plugin output";
+  return "# this is the entrypoint plugin output";
 };
 
 export const validate: PluginValidateFn<any> = async (
