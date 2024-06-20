@@ -19,21 +19,22 @@ import {
   Name,
   PythonTargetLanguage,
   PythonRenderer,
+  JSONPythonRenderer,
 } from "quicktype-core";
 import { FixMeOptionsType } from "quicktype-core/dist/types";
 
 export class PythonTargetLanguageGQL extends PythonTargetLanguage {
-  // constructor() {
-  //   super("Python", ["python", "py"], "py");
-  //   // console.log("options", this.getOptions());
-  // }
+  constructor() {
+    super("Python", ["python", "py"], "py");
+  }
 
   protected makeRenderer(renderContext: RenderContext, untypedOptionValues: FixMeOptionsType): PythonRenderer {
-    return super.makeRenderer(renderContext, untypedOptionValues);
+    const options = getOptionValues(pythonOptions, untypedOptionValues);
+    return new PythonRendererGQL(this, renderContext, options);
   }
 }
 
-class PythonRendererGQL extends PythonRenderer {
+class PythonRendererGQL extends JSONPythonRenderer {
   // //   protected emitImports(): void {
   // //     this.emitCommentLines(["TODO: This should show up at the top"]);
   // //     this.emitMultiline(`import requests

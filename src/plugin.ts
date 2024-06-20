@@ -30,12 +30,12 @@ import { targetLanguages } from "./language";
  * @description This is where we will define options the user can pass to our plugin. Like here: https://the-guild.dev/graphql/codegen/docs/custom-codegen/plugin-structure#add-plugin-configuration.
  */
 
-export interface GqlGenConfig {
+export interface GqlgenConfig {
   language: string; // Add the language property to the config interface
   introspectionResultJson: any;
 }
 
-export const plugin: PluginFunction<GqlGenConfig> = async (
+export const plugin: PluginFunction<GqlgenConfig> = async (
   schema: GraphQLSchema,
   documents,
   config,
@@ -73,7 +73,7 @@ export const plugin: PluginFunction<GqlGenConfig> = async (
 export const validate: PluginValidateFn<any> = async (
   schema: GraphQLSchema,
   documents: Types.DocumentFile[],
-  config: GqlGenConfig,
+  config: GqlgenConfig,
   outputFile: string,
   allPlugins: Types.ConfiguredPlugin[]
 ) => {

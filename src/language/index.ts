@@ -9,7 +9,7 @@ export * from "./Python.js";
 export * from "./TypeScript.js";
 
 export const targetLanguages: TargetLanguage[] = [
-  new PythonTargetLanguageGQL("Python", ["python", "py"], "py"),
+  new PythonTargetLanguageGQL(),
   new TypeScriptTargetLanguageGQL(),
   new ElixirTargetLanguageGQL(),
 ];
