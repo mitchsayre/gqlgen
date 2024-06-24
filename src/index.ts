@@ -69,6 +69,9 @@ export async function main(language: string): Promise<SerializedRenderResult> {
 
   const introspectionResultJson = JSON.parse(schemaJson as any);
 
+  const schemaJson = fs.readFileSync("/home/mitch/dev/wfloat/packages/gqlgen/schema/schema.json", "utf8");
+  const introspectionResultJson = JSON.parse(schemaJson as any);
+
   const source: GraphQLSourceData = {
     name: operationName,
     query: operation,
