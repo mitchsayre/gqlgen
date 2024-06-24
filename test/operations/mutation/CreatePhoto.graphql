@@ -1,4 +1,4 @@
-mutation createPhoto($input: CreatePhotoInput!) {
+mutation CreatePhoto($input: CreatePhotoInput!) {
   createPhoto(input: $input) {
     url
     title

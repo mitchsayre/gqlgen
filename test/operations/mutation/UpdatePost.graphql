@@ -1,4 +1,4 @@
-mutation Mutation($updatePostId: ID!, $input: UpdatePostInput!) {
+mutation UpdatePost($updatePostId: ID!, $input: UpdatePostInput!) {
   updatePost(id: $updatePostId, input: $input) {
     body
     id

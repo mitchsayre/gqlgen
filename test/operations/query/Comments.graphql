@@ -1,4 +1,4 @@
-query Comments() {
+query Comments {
   comment(id: "45") {
     body
     email

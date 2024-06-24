@@ -1,4 +1,4 @@
-query PostUserAddressCompanyTodoLinkFirst() {
+query PostUserAddressCompanyTodoLinkFirst {
   post(id: "234") {
     id
     title

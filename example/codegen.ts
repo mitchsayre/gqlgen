@@ -70,23 +70,19 @@ import { preset } from "../src/preset.js";
 // import { preset } from "../dist/preset.js";
 
 const config: CodegenConfig = {
-  schema: ["./example/schema.graphql", "http://localhost:4000/"],
-  documents: "./example/**/*.graphql",
+  // schema: ["./example/schema.graphql"],
+  schema: "http://localhost:4000/",
+  documents: "./test/operations/**/*.graphql",
   generates: {
     "./example/generated": {
       preset: "./dist/preset.js" as any, // gqlgen-preset
       presetConfig: {
-        language: "python",
-        extension: ".generated.tsx",
+        language: "Python",
+        // extension: "foo",
+        preserveFiles: [".gitignore"],
       },
       plugins: ["./dist/plugin.js"], // gqlgen-plugin
     },
-    // "./example/generated/schema.json": {
-    //   plugins: ["introspection"],
-    //   config: {
-    //     minify: true,
-    //   },
-    // },
   },
 };
 export default config;
