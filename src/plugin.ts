@@ -61,9 +61,10 @@ export const plugin: PluginFunction<GqlgenConfig> = async (
     inputData,
     rendererOptions: {
       // namespace: "MyNamespace.Foobar.UpdateComment",
-      "just-types": false,
+      // "just-types": false,
       // "just-types": "false",
-      "python-version": "3.7",
+      // "python-version": "3.7",
+      "prefer-types": true,
     },
   });
 

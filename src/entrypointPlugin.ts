@@ -82,7 +82,9 @@ export const plugin: PluginFunction<GqlgenEntrypointConfig> = async (
     return sources
       .map(source => {
         return `
-  async ${source.name}(input: operationInput): Promise<${source.name}> {
+  public async ${source.name.charAt(0).toLowerCase()}${source.name.slice(1)}(input: OperationInput): Promise<${
+          source.name
+        }> {
     const res = await this.executeOperation(
       input,
       "${source.name}",
@@ -119,23 +121,23 @@ class GqlgenClient:
   } else if (config.language === "TypeScript") {
     return `${generateTsImports(sources)}
 
-interface Config {
+type Config = {
   url: string;
   headers: { [key: string]: string };
 }
 
-interface operationInput {
+type OperationInput = {
   [key: string]: any;
 }
 
-class GqlgenClient {
+export class GqlgenClient {
   private config: Config;
 
   constructor(config: Config) {
     this.config = config;
   }
 
-  async executeOperation(input: operationInput, operationName: string, document: string): Promise<any> {
+  private async executeOperation(input: OperationInput, operationName: string, document: string): Promise<any> {
     const url = this.config.url;
     const headers = this.config.headers;
     const body = {
