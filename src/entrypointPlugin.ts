@@ -29,10 +29,10 @@ export const plugin: PluginFunction<GqlgenEntrypointConfig> = async (
       schema: config.introspectionResultJson,
     };
   });
-
   // console.log(sources);
 
-  const generateImports = (sources: GraphQLSourceData[]) => {
+  // Import for Python
+  const generatePyImports = (sources: GraphQLSourceData[]) => {
     return sources
       .map(source => {
         return `from ${source.name
@@ -42,12 +42,23 @@ export const plugin: PluginFunction<GqlgenEntrypointConfig> = async (
       })
       .join("\n");
   };
-  // console.log(generateImports(sources));
+
+  // Import for TypeScript
+  const generateTsImports = (sources: GraphQLSourceData[]) => {
+    return sources
+      .map(source => {
+        return `import {Convert as Convert${source.name}} from './${source.name}.ts'`;
+      })
+      .join("\n");
+  };
+  // console.log(generateTsImports(sources));
 
   const queryFormat = (query: string) => {
     return query.split("\n").join(" ");
   };
-  const GenerateOperations = (sources: GraphQLSourceData[]) => {
+
+  // Python operations
+  const generatePyOperations = (sources: GraphQLSourceData[]) => {
     return sources
       .map(source => {
         return `
@@ -66,8 +77,28 @@ export const plugin: PluginFunction<GqlgenEntrypointConfig> = async (
       .join("\n");
   };
 
-  return `import requests, json
-${generateImports(sources)}
+  // TypeScript operations
+  const generateTsOperations = (sources: GraphQLSourceData[]) => {
+    return sources
+      .map(source => {
+        return `
+  async ${source.name}(input: operationInput): Promise<Convert${source.name}> {
+    const res = await this.executeOperation(
+      input,
+      "${source.name}",
+      '${queryFormat(source.query)}'
+    );
+    return Convert${source.name}.to${source.name}(res);
+  }`;
+      })
+      .join("\n");
+  };
+  // console.log(generateTsOperations(sources));
+
+  // console.log(config.language);
+  if (config.language === "Python") {
+    return `import requests, json
+${generatePyImports(sources)}
 
 class GqlgenClient:
   def __init__(self, config):
@@ -84,7 +115,51 @@ class GqlgenClient:
 
     res = requests.post(url, headers=headers, data=json.dumps(body))
     return res.json()
-  ${GenerateOperations(sources)}`;
+  ${generatePyOperations(sources)}`;
+  } else if (config.language === "TypeScript") {
+    return `${generateTsImports(sources)}
+
+interface Config {
+  url: string;
+  headers: { [key: string]: string };
+}
+
+interface operationInput {
+  [key: string]: any;
+}
+
+class GqlgenClient {
+  private config: Config;
+
+  constructor(config: Config) {
+    this.config = config;
+  }
+
+  async executeOperation(input: operationInput, operationName: string, document: string): Promise<any> {
+    const url = this.config.url;
+    const headers = this.config.headers;
+    const body = {
+      query: document,
+      operationName: operationName,
+      variables: input,
+    };
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        ...headers,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    return res.json();
+  }
+  ${generateTsOperations(sources)}
+}`;
+  } else {
+    return `Error: Unsupported ${config.language}`;
+  }
 };
 
 export const validate: PluginValidateFn<any> = async (

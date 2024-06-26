@@ -147,11 +147,11 @@ export const preset: Types.OutputPreset<GqlgenPresetConfig> = {
     const entrypointPluginMap = { [`entrypointPlugin`]: entrypointPlugin } as any;
     const entrypointArtifact: Types.GenerateOptions = {
       ...options,
-      filename: path.join(options.baseOutputDir, "__init__.py"),
+      filename: path.join(options.baseOutputDir, "index.ts"),
       documents: options.documents,
       plugins: entrypointPlugins,
       pluginMap: entrypointPluginMap,
-      config: {},
+      config: { language: options.presetConfig.language },
       schema: options.schema,
       schemaAst: schemaObject,
     };
