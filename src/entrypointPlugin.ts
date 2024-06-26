@@ -47,7 +47,7 @@ export const plugin: PluginFunction<GqlgenEntrypointConfig> = async (
   const generateTsImports = (sources: GraphQLSourceData[]) => {
     return sources
       .map(source => {
-        return `import {Convert as Convert${source.name}} from './${source.name}.ts'`;
+        return `import { Convert as Convert${source.name}, ${source.name} } from './${source.name}.ts'`;
       })
       .join("\n");
   };
@@ -82,7 +82,7 @@ export const plugin: PluginFunction<GqlgenEntrypointConfig> = async (
     return sources
       .map(source => {
         return `
-  async ${source.name}(input: operationInput): Promise<Convert${source.name}> {
+  async ${source.name}(input: operationInput): Promise<${source.name}> {
     const res = await this.executeOperation(
       input,
       "${source.name}",
