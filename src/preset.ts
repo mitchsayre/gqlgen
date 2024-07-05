@@ -16,6 +16,7 @@ export type GqlgenPresetConfig = {
   language: keyof typeof languages;
   extension?: string;
   preserveFiles?: string[];
+  namespace?: string;
 };
 
 const languages = {
@@ -111,6 +112,7 @@ export const preset: Types.OutputPreset<GqlgenPresetConfig> = {
         ...options.config,
         language: options.presetConfig.language,
         introspectionResultJson: introspectionResultJson,
+        namespace: options.presetConfig.namespace,
       };
 
       const document: DocumentNode = { kind: Kind.DOCUMENT, definitions: [] };
@@ -147,11 +149,11 @@ export const preset: Types.OutputPreset<GqlgenPresetConfig> = {
     const entrypointPluginMap = { [`entrypointPlugin`]: entrypointPlugin } as any;
     const entrypointArtifact: Types.GenerateOptions = {
       ...options,
-      filename: path.join(options.baseOutputDir, "index.ts"),
+      filename: path.join(options.baseOutputDir, "main.cpp"),
       documents: options.documents,
       plugins: entrypointPlugins,
       pluginMap: entrypointPluginMap,
-      config: { language: options.presetConfig.language },
+      config: { language: options.presetConfig.language, namespace: options.presetConfig.namespace },
       schema: options.schema,
       schemaAst: schemaObject,
     };

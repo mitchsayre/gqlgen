@@ -9,6 +9,7 @@ import { GraphQLInput, GraphQLSourceData } from "quicktype-graphql-input";
 export interface GqlgenEntrypointConfig {
   language: string; // Add the language property to the config interface
   introspectionResultJson: any;
+  namespace: string;
 }
 
 export const plugin: PluginFunction<GqlgenEntrypointConfig> = async (
@@ -53,6 +54,15 @@ export const plugin: PluginFunction<GqlgenEntrypointConfig> = async (
   };
   // console.log(generateTsImports(sources));
 
+  // Import for C++
+  const generateCppImports = (sources: GraphQLSourceData[]) => {
+    return sources
+      .map(source => {
+        return `#include <${source.name}.h>`;
+      })
+      .join("\n");
+  };
+
   const queryFormat = (query: string) => {
     return query.split("\n").join(" ");
   };
@@ -96,6 +106,22 @@ export const plugin: PluginFunction<GqlgenEntrypointConfig> = async (
       .join("\n");
   };
   // console.log(generateTsOperations(sources));
+
+  // C++ operations
+  const generateCppOperation = (sources: GraphQLSourceData[]) => {
+    return sources
+      .map(source => {
+        return `
+  ${config.namespace}::${source.name}(const Json::Value &input) {
+    Json::Value res = executeOperation(
+      input,
+      "${source.name}",
+      R"${queryFormat(source.query)}"
+    );
+  }`;
+      })
+      .join("\n");
+  };
 
   // console.log(config.language);
   if (config.language === "Python") {
@@ -159,6 +185,73 @@ export class GqlgenClient {
   }
   ${generateTsOperations(sources)}
 }`;
+  } else if (config.language == "CPlusPlus") {
+    return `${generateCppImports(sources)}
+#include <iostream>
+#include <string>
+#include <map>
+#include <nlohmann/json.hpp>
+#include <httplib.h>
+#include <json/json.h>
+#pragma once
+using namespace std;
+
+struct Config
+{
+  string url;
+  map<string, string> headers;
+};
+
+class GqlgenClient
+{
+private:
+  Config config;
+
+public:
+  // constructor
+  GqlgenClient(const Config &config) : config(config) {}
+
+  Json::Value executeOperation(const Json::Value &input, const string &operationName, const string &document)
+  {
+    httplib::Client client(config.url.c_str());
+    Json::Value body;
+    body["query"] = document;
+    body["operationName"] = operationName;
+    body["variables"] = input;
+
+    Json::StreamWriterBuilder writer;
+    string bodyStr = Json::writeString(writer, body);
+
+    httplib::Headers httplibHeaders;
+    for (const auto &header : headers)
+    {
+      httplibHeaders.emplace(header.first, header.second);
+    }
+
+    auto res = client.Post("/", httplibHeaders, bodyStr, "application/json");
+
+    Json::Value response;
+
+    if (res && res->status == 200)
+    {
+      Json::CharReaderBuilder reader;
+      string errors;
+      istringstream is(res->body);
+      string doc = is.str();
+      istringstream docStream(doc);
+      Json::parseFromStream(reader, docStream, &response, &errors);
+    }
+    else
+    {
+      cout << "Error: " << res.error() << endl;
+      return Json::Value(); // empty response
+    }
+
+    return response;
+  }
+  ${generateCppOperation(sources)}
+  }
+  `;
   } else {
     return `Error: Unsupported ${config.language}`;
   }

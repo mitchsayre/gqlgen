@@ -33,6 +33,7 @@ import { targetLanguages } from "./language";
 export interface GqlgenConfig {
   language: string; // Add the language property to the config interface
   introspectionResultJson: any;
+  namespace: string;
 }
 
 export const plugin: PluginFunction<GqlgenConfig> = async (
@@ -60,7 +61,7 @@ export const plugin: PluginFunction<GqlgenConfig> = async (
     lang,
     inputData,
     rendererOptions: {
-      // namespace: "MyNamespace.Foobar.UpdateComment",
+      namespace: config.namespace, // "MyNamespace.Foobar.UpdateComment",
       // "just-types": false,
       // "just-types": "false",
       // "python-version": "3.7",

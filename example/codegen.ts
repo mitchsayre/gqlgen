@@ -77,7 +77,8 @@ const config: CodegenConfig = {
     "./example/generated": {
       preset: "./dist/preset.js" as any, // gqlgen-preset
       presetConfig: {
-        language: "TypeScript",
+        namespace: "namespace",
+        language: "CPlusPlus",
         // extension: "foo",
         preserveFiles: [".gitignore"],
       },
